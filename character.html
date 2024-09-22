@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Site</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="container"> 
+        <nav id="navbar navbar-expand-lg" class="bg-dark"> 
+            <h1 class="text-white">Character</h1>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page"  style="color: green ; font-weight: bold"  href="character.html">Character</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " style="color: green; font-weight: bold"  href="episode.html">Episode</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link"  style="color: green;font-weight: bold " href="location.html">Location</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-12">
+                <h3>Characters</h3>
+                <table class="table table-striped my-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th> 
+                            <th>Status</th>                  
+                            <th>Species</th>
+                            <th>Type</th>
+                            <th>Gender</th>
+                            <th>Origin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="characters"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function getCharacters() {
+            try {
+                const response = await fetch('https://rickandmortyapi.com/api/character'); // Helyes API URL
+
+                if (!response.ok) {
+                    throw new Error('Hiba történt');
+                }
+
+                const data = await response.json();
+                const characterList = data.results;
+
+                const characterTable = document.getElementById('characters');
+                characterTable.innerHTML = characterList.map(character =>`
+                    <tr>
+                        <td>${character.id}</td>
+                        <td>${character.name}</td>
+                        <td>${character.status}</td>
+                        <td>${character.species}</td>
+                        <td>${character.type || 'N/A'}</td>
+                        <td>${character.gender}</td>
+                        <td>${character.origin.name}</td>
+                    </tr>
+                `).join('');
+                console.log('Hívás kész!');
+            } catch (error) {
+                console.log('Hiba:', error.message);
+            }
+        }
+
+        getCharacters();
+    </script>
+
+    <footer class="bg-dark text-white text-center">
+        <h4 class="py-3">&copy;Rick&Morty</h4>
+    </footer>
+</body>
+</html>
