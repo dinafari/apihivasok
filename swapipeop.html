@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swapi</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1>Swapi People</h1>
+
+  <div id="container"> 
+    <nav id="navbar navbar-expand-lg" class="bg-dark"> 
+        <h1 class="text-white">People</h1>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page"  style="color: green ; font-weight: bold"  href="swapipeop.html">People</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " style="color: green; font-weight: bold"  href="swapistars.html">Starship</a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link"  style="color: green;font-weight: bold " href="swapifilms.html">Films</a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+
+  <div class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <h3>Characters</h3>
+            <table class="table table-striped my-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Height</th> 
+                        <th>Gender</th>                  
+                        <th>Films Count</th>
+                        
+                </thead>
+                <tbody id="people"></tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+  <script>
+    async function getpeople() {
+      try {
+        const response = await fetch('https://swapi.dev/api/people/?page=6');
+  
+        if (!response.ok) {
+          throw new Error('Hiba történt!');
+        }
+  
+        const data = await response.json();
+        const peopleList = data.results;
+  
+        const peopleTable = document.getElementById('people');
+        peopleTable.innerHTML = peopleList.map(people =>
+          `<tr>
+            <td>${people.name}</td>
+            <td>${people.height}</td>
+            <td>${people.gender}</td>
+            <td>${people.films.length}</td>
+           
+          </tr>`
+        ).join('');
+        console.log('Hívás kész!');
+      } catch (error) {
+        console.log('Hiba történt:', error.message);
+      }
+    }
+    getpeople();
+  </script>
+  
+
+  
+
+  <footer class="bg-dark text-white text-center">
+    <h4 class="py-3">&copy;Swapi</h4>
+  </footer>
+  
+
+
+
+
+
+
+    
+</body>
+</html>
